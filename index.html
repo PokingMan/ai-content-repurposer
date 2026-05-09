@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepurposeAI - One Click Content Magic</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { font-family: system-ui; }</style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+  <div class="max-w-4xl mx-auto p-6">
+    <div class="text-center mb-10">
+      <h1 class="text-5xl font-bold mb-3">RepurposeAI</h1>
+      <p class="text-xl text-gray-400">Paste once. Get 10 formats. Save hours every week.</p>
+    </div>
+
+    <!-- Input -->
+    <div class="bg-gray-900 p-6 rounded-3xl mb-8">
+      <textarea id="inputText" rows="6" 
+        class="w-full bg-gray-800 text-white p-4 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500"
+        placeholder="Paste your blog post, video script, podcast notes, or any content here..."></textarea>
+      
+      <button onclick="repurposeContent()" 
+        class="mt-6 w-full bg-green-600 hover:bg-green-500 py-5 rounded-2xl font-semibold text-lg">
+        ✨ Repurpose My Content
+      </button>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+
+    <!-- Templates / Formats -->
+    <div class="mt-12">
+      <h2 class="text-2xl font-semibold mb-6 text-center">Available Formats</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+        <div class="bg-gray-900 p-4 rounded-2xl">🐦 Twitter Thread (5-10 tweets)</div>
+        <div class="bg-gray-900 p-4 rounded-2xl">💼 LinkedIn Post + Comments</div>
+        <div class="bg-gray-900 p-4 rounded-2xl">📧 Email Newsletter</div>
+        <div class="bg-gray-900 p-4 rounded-2xl">📸 Instagram Captions + Hashtags</div>
+        <div class="bg-gray-900 p-4 rounded-2xl">📰 Blog to YouTube Script</div>
+        <div class="bg-gray-900 p-4 rounded-2xl">📝 Short Form (TikTok/Reels)</div>
+      </div>
+    </div>
+
+    <div class="text-center mt-16">
+      <a href="https://github.com/YOUR-USERNAME/ai-content-repurposer" target="_blank"
+         class="inline-block bg-purple-600 px-10 py-5 rounded-3xl font-bold text-lg mb-4">
+        ⭐ Star on GitHub
+      </a>
+      <p class="text-gray-400">Free GitHub version • Cloud version (unlimited + faster) coming soon</p>
+      <button onclick="upgradePrompt()" 
+        class="mt-6 bg-white text-black px-8 py-4 rounded-2xl font-semibold">
+        Get Hosted Cloud ($9/mo)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function repurposeContent() {
+      const input = document.getElementById('inputText').value.trim();
+      const resultsDiv = document.getElementById('results');
+      
+      if (!input) {
+        alert("Please paste some content first!");
+        return;
+      }
+
+      resultsDiv.innerHTML = `
+        <div class="col-span-full bg-green-900/30 border border-green-500 p-6 rounded-3xl mb-6">
+          <p class="text-green-400 font-medium">✅ Repurposed successfully! (Demo mode)</p>
+        </div>
+      `;
+
+      const formats = [
+        {title: "🐦 Twitter Thread", content: "Thread idea:\n1. Hook: " + input.substring(0,80) + "...\n2. Key point 1...\n3. Key point 2...\n\nWhat do you think?"},
+        {title: "💼 LinkedIn Post", content: "Just published: " + input.substring(0,120) + "...\n\nThis changed how I approach content forever. Full thread below 👇"},
+        {title: "📧 Email Newsletter", content: "Subject: This week's big insight\n\nHey friends,\n\n" + input.substring(0,150) + "...\n\nRead time: 4 min"},
+        {title: "📸 Instagram Caption", content: input.substring(0,100) + "... 🔥\n\n#ContentCreation #AItools #CreatorLife"},
+      ];
+
+      formats.forEach(format => {
+        const card = document.createElement('div');
+        card.className = "bg-gray-900 p-6 rounded-3xl";
+        card.innerHTML = `
+          <h3 class="font-semibold mb-3">${format.title}</h3>
+          <pre class="text-sm text-gray-300 whitespace-pre-wrap overflow-auto max-h-48">${format.content}</pre>
+          <button onclick="copyToClipboard(this)" 
+            class="mt-4 text-xs bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-xl">Copy</button>
+        `;
+        resultsDiv.appendChild(card);
+      });
+
+      resultsDiv.classList.remove('hidden');
+      resultsDiv.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function copyToClipboard(btn) {
+      const text = btn.previousElementSibling.textContent;
+      navigator.clipboard.writeText(text);
+      btn.textContent = "Copied!";
+      setTimeout(() => btn.textContent = "Copy", 2000);
+    }
+
+    function upgradePrompt() {
+      alert("Great choice! In the real version this would go to Stripe.\n\nFor now: Build audience on GitHub first → then add paid cloud.");
+    }
+  </script>
+</body>
+</html>
